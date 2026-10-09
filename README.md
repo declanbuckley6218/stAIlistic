@@ -8,10 +8,10 @@ Group project for CS 321 - Software Engineering
     - https://github.com/declanbuckley6218 
 ### Rahul Sharma    
     - rsharm21@gmu.edu 
-    - https://github.com/
+    - https://github.com/rahul-sharma-cs
 ### Spandan Khadka  
     - skhadka8@gmu.edu 
-    - https://github.com/
+    - https://github.com/Spandankh
 
  
 Team Leader: Declan Buckley 
