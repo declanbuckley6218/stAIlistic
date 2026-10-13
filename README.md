@@ -26,9 +26,11 @@ Project Idea: Outfit Picker
 
 # Tech Stack
 - Bun
+- Next.js
+- Tailwind CSS
 - OpenRouter API
 - Fast API
-- Oracle 26ai
+- Oracle 26ai w/ORDS
 
 
 # Description: 
