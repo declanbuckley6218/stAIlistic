@@ -8,8 +8,43 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-stailistictext-darkgray: #404040;
+  --color-stailistictext-blue: #4a90e2;
+  --color-stailistictext-gray: #737373;
+
+/* Font Family */
+  --font-aptos: "Aptos", sans-serif;
+
+  /* Font Size (28pt in Word is roughly 37.33px) */
+  --size-title-word: 2.333rem;
+
+  /* Color: Black, Text 1, Lighter 25% */
+  
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+@utility stailistic-st {
+  font-family: var(--font-aptos);
+  font-size: var(--size-title-word);
+  color: var(--color-stailistictext-darkgray);
+  font-weight: 700; /* Bold */
+}
+
+@utility stailistic-ai {
+  font-family: var(--font-aptos);
+  font-size: var(--size-title-word);
+  color: var(--color-stailistictext-blue);
+  font-weight: 700; /* Bold */
+}
+
+@utility stailistic-listic {
+  font-family: var(--font-aptos);
+  font-size: var(--size-title-word);
+  color: var(--color-stailistictext-gray);
+  font-weight: 700; /* Bold */
 }
 
 @media (prefers-color-scheme: dark) {
