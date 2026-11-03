@@ -29,7 +29,7 @@ function StailisticText(){
         </div>
     );
 }
-function LinkToHome(children){
+function LinkToHome({children}: {children: React.ReactNode}){
     return(
         <div>
             <Link href='/'>
