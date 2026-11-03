@@ -38,6 +38,7 @@
   font-size: var(--size-title-word);
   color: var(--color-stailistictext-blue);
   font-weight: 700; /* Bold */
+  font-style: italic; /*italics*/
 }
 
 @utility stailistic-listic {

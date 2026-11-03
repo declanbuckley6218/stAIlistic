@@ -9,10 +9,9 @@ export default function StailisticLogo({isButton}: stailistics) {
 
     return(
         (isButton) ? 
-        <LinkToHome>
+        <Link href='/'>
             <StailisticText/>
-
-        </LinkToHome>
+        </Link>
         : <StailisticText/>
     );
     
@@ -21,21 +20,11 @@ export default function StailisticLogo({isButton}: stailistics) {
 function StailisticText(){
     return(
         <div>
-            <span>
-                <text className="stailistic-st">ST</text>
-                <text className="stailistic-ai">AI</text>
-                <text className="stailistic-listic">LISTIC</text>
+            <span className="flex flex-row select-none">
+                <p className="stailistic-st">ST</p>
+                <p className="stailistic-ai">AI</p>
+                <p className="stailistic-listic">LISTIC</p>
             </span>
         </div>
-    );
-}
-function LinkToHome(children){
-    return(
-        <div>
-            <Link href='/'>
-             {children}
-            </Link>
-        </div>
-                  
     );
 }
