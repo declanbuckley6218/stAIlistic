@@ -5,47 +5,10 @@ import {
 } from "@/components/ui/popover";
 import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ClothingItem } from "@/types/wardrobe";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { filterGroups } from "@/lib/mockWardrobe";
 
-// Hard coded filter for now, probably makes sense to make it dynamic later on
-type FilterKey = keyof Pick<
-  ClothingItem,
-  "color" | "size" | "brand" | "type" | "material"
->;
-type FilterGroup = {
-  key: FilterKey;
-  label: string;
-  options: string[];
-};
-const filterGroups: FilterGroup[] = [
-  {
-    key: "color",
-    label: "Color",
-    options: ["Red", "Blue", "Green", "Black", "White"],
-  },
-  {
-    key: "size",
-    label: "Size",
-    options: ["XS", "S", "M", "L", "XL"],
-  },
-  {
-    key: "brand",
-    label: "Brand",
-    options: ["Nike", "Adidas", "Puma", "Reebok"],
-  },
-  {
-    key: "type",
-    label: "Type",
-    options: ["Top", "Bottom", "Shoes", "Accessories"],
-  },
-  {
-    key: "material",
-    label: "Material",
-    options: ["Cotton", "Polyester", "Leather", "Denim"],
-  },
-];
 export default function FilterPopover() {
   return (
     <Popover>
