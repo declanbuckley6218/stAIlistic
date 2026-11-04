@@ -3,7 +3,10 @@ import { useState } from "react";
 import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
-
+import ScrollableBox from "./ScrollColumn";
+import { getOutfitsDummy } from "./getOutfits";
+import OutfitBox from "./OutfitBox";
+const outfits = await getOutfitsDummy();
 export default function OutfitterPageColumn(){
   const functionEG = (id: string) => {
     console.log(`Button ${id} clicked`);
@@ -31,6 +34,13 @@ export default function OutfitterPageColumn(){
                 <QuickButton onClick={() => functionEG(" test ")}>Replace W Filter</QuickButton>
             </div>
         </div>
+        <ScrollableBox>
+          {outfits?.map(fit => {
+            return(<OutfitBox fitInfo={fit} key={fit.outfitID} />);
+          }
+            
+          )}
+        </ScrollableBox>
     </div>
   );
 }

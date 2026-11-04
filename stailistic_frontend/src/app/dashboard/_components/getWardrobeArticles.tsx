@@ -1,67 +1,9 @@
 import { WardrobeArticlesInterface } from "./ArticleBox";
-export default async function getWardrobeArticles<WardrobeArticlesInterface>(){
-    const iter = 25;
-    const data = [];
-    while(iter > 0){
-         const newArticle =
-            (iter % 4 == 0) ?
-                {
-                    itemID: iter,
-                    imageDataURL: "/shoes.png",
-                    itemName: "ASCIS shoes",
-                    itemDescription: "ASICS Gel-NYC White Roasted Coffee 'White Brown'",
-                    itemStyle: "Casual",
-                    itemColor: "Coffee",
-                    itemSecondaryColor: "White",
-                    itemType: "Shoes",
-                    itemEvent: "Informal",
-                    itemSize: "9.5",
-                } 
-            : (iter % 4 == 1) ?
-                {
-                    itemID: iter,
-                    imageDataURL: "/pants.png",
-                    itemName: "Brown Cargo Pants",
-                    itemDescription: "Brown Cargo Pants",
-                    itemStyle: "Casual",
-                    itemColor: "Brown",
-                    itemSecondaryColor: "Tan",
-                    itemType: "Pants",
-                    itemEvent: "Informal",
-                    itemSize: "32x32",
-                } 
-            : (iter % 4 == 2) ?
-                {
-                    itemID: iter,
-                    imageDataURL: "/shirt.png",
-                    itemName: "Favorite White Tee",
-                    itemDescription: "White tee shirt i really love and adore. It fits me super well!",
-                    itemStyle: "Casual",
-                    itemColor: "White",
-                    itemSecondaryColor: "White",
-                    itemType: "T-Shirt",
-                    itemEvent: "Informal",
-                    itemSize: "Large",
-                } 
-            :   
-                {
-                    itemID: iter,
-                    imageDataURL: "/jacket.png",
-                    itemName: "Brown Jacket",
-                    itemDescription: "Brown jacket with fuzzy neckline and cuffs, super warm and I adore it.",
-                    itemStyle: "Casual",
-                    itemColor: "Brown",
-                    itemSecondaryColor: "Cream",
-                    itemType: "Jacket",
-                    itemEvent: "Informal",
-                    itemSize: "Large",
-                } 
-        
-        data.push(newArticle);
-    }
+export default async function getWardrobeArticles(): Promise<WardrobeArticlesInterface[]>{
+    
         // const res = await fetch('need database call here');
         // const data = await res.json();
-        // return Promise<>data || []; 
+        return []; 
 }
 
 export async function getWardrobeArticlesDummy(): Promise<WardrobeArticlesInterface[]>{
@@ -103,7 +45,7 @@ export async function getWardrobeArticlesDummy(): Promise<WardrobeArticlesInterf
                     itemDescription: "White tee shirt i really love and adore. It fits me super well!",
                     itemStyle: "Casual",
                     itemColor: "White",
-                    itemSecondaryColor: "White",
+                    itemSecondaryColor: undefined,
                     itemType: "T-Shirt",
                     itemEvent: "Informal",
                     itemSize: "Large",
@@ -124,7 +66,6 @@ export async function getWardrobeArticlesDummy(): Promise<WardrobeArticlesInterf
         
         data.push(newArticle);
         iter = iter-1;
-        console.log("Wardrobe Item: " + newArticle.itemID + "\n");
     }
     return data;
 }
