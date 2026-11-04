@@ -8,7 +8,7 @@ import { OutfitInterface } from "./OutfitBox";
 //     outfitStyle?: string, //like athletic waer, sweat wear, 
 //     outfitEvent?: string, // actual event
 // }
-export default async function getOutfitss(): Promise<OutfitInterface[]>{
+export default async function getOutfits(): Promise<OutfitInterface[]>{
         // const res = await fetch('need database call here');
         // const data = await res.json();
         return []; 

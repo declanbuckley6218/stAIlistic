@@ -15,15 +15,20 @@ export interface WardrobeArticlesInterface {
 
 export default function ArticleBox( {attributes} : {attributes: WardrobeArticlesInterface}){
     return(
-        <div className="relative w-fill flex gap-4 border border-stailistictext-darkgray/15 justify-center bg-white h-fit py-4 px-2 h-min-30 border-t mx-1 my-1 overflow-hidden rounded-sm">
-            <ImageCard src={attributes.imageDataURL}/>
-            <div className="flex-1 grid grid-rows-3 gap-1 border border-stailistictext-darkgray rounded-lg px-1 bg-stailistic-blue-faint/20">
+        <div className="relative w-fill flex flex-col gap-4 border border-stailistictext-darkgray/15 justify-center bg-white h-fit py-4 px-2 h-min-30 border-t mx-1 my-1 overflow-hidden rounded-sm">
+            <div className="relative w-full flex  justify-center bg-white h-fit px-2 ">
                 <p className="text-stailistic-blue-muted font-bold flex justify-center">
                     {attributes.itemName}
                 </p>
-                <p className="text-stailistictext-gray flex justify-center ">
+            </div>
+            <div className="grid grid-cols-2 justify-center gap-2 border border-stailistictext-darkgray/10 rounded-lg px-1 bg-stailistic-blue-faint/20">
+                <div className="w-fit h-fit mx-auto my-auto">
+                    <ImageCard src={attributes.imageDataURL}/>
+                </div>
+                <div className="w-fit h-fit justify-around mx-auto">
+                    <p className="text-stailistictext-gray flex justify-center my-2">
                     {attributes.itemDescription}
-                </p>
+                    </p>
                     <ol>
                         {(attributes.itemEvent != undefined && attributes.itemEvent != null) ? <li> <span className="text-stailistictext-gray justify-left flex-row flex"><p className="font-bold">Event:</p> {attributes.itemEvent}</span> </li> : <></> }
                         {(attributes.itemType != undefined && attributes.itemType != null) ? <li> <span className="text-stailistictext-gray justify-left flex-row flex"><p className="font-bold">Type:</p> {attributes.itemType}</span> </li> : <></> }
@@ -34,6 +39,8 @@ export default function ArticleBox( {attributes} : {attributes: WardrobeArticles
                         {(attributes.itemSecondaryColor != undefined && attributes.itemSecondaryColor != null) ? <li> <span className="text-stailistictext-gray justify-left flex-row flex"><p className="font-bold">- Secondary:</p> {attributes.itemSecondaryColor} </span> </li> : <></> }
                         {(attributes.itemSize != undefined && attributes.itemSize != null) ? <li> <span className="text-stailistictext-gray justify-left flex-row flex"><p className="font-bold">Size:</p> {attributes.itemSize}</span> </li> : <></> }
                     </ol>
+                </div>
+                
                 
             </div>
             

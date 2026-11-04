@@ -12,9 +12,9 @@ export interface OutfitInterface {
 
 export default function OutfitBox({fitInfo}: {fitInfo: OutfitInterface}){
     return(
-        <div className="relative w-fill mx-1 grid gird-rows-4 border border-stailistictext-darkgray/25 justify-center bg-white h-fit py-4 px-2 my-2 rounded-sm overflow-hidden h-min-30">
+        <div className="relative w-fill mx-1 grid gap-2border border-stailistictext-darkgray/25 justify-center bg-white h-fit py-4 px-2 my-2 rounded-sm overflow-hidden h-min-30">
             <div className="relative w-full flex  justify-center bg-white h-fit px-2 ">
-                <p className="text-stailistic-blue-muted font-bold flex justify-center">
+                <p className="text-stailistic-blue-muted  text-2xl font-bold flex justify-center">
                     {fitInfo.outfitName ?? "Unnamed Outfit"}
                 </p>
             </div>
@@ -41,7 +41,7 @@ export default function OutfitBox({fitInfo}: {fitInfo: OutfitInterface}){
 }
 
 
-function OutfitPhotosBox({ urls }: { urls?: WardrobeArticlesInterface[] }) {
+export function OutfitPhotosBox({ urls }: { urls?: WardrobeArticlesInterface[] }) {
     if (!urls || urls.length === 0) return null;
 
     const cols =
