@@ -7,7 +7,7 @@ interface SearchBarProps extends Omit<ComponentProps<'input'>, 'value' | 'onChan
 
 export function PageColumnSearchBar({ value, onChange, placeholder = "Search...", ...props }: SearchBarProps) {
   return (
-    <div className="relative w-full max-w-md ml-3 select-none">
+    <div className="relative w-full max-w-md ml-3 select-none items-center flex">
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
         <svg 
           className="w-4 h-4 text-gray-500" 

@@ -1,10 +1,10 @@
 'use client'
 
 import { useSearchParams } from "next/navigation";
-import { PageColumnHeader,  } from "./page";
-import QuickButton, { QuickButtonGroup } from "./QuickButton";
+import { PageColumnHeader,  } from "../page";
 import { useState } from "react";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
+import QuickButton, { QuickButtonGroup } from "./QuickButton";
 
 export default function EventPageColumn(){
   const functionEG = (id: string) => {

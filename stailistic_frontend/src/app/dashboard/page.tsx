@@ -1,13 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import StailisticLogo from "@/components/ui/stailisticlogo";
-import { ButtonHTMLAttributes } from "react";
-import WardrobePageColumn from "./WardrobePageColumn";
-import EventPageColumn from "./EventPageColumn";
-import OutfitterPageColumn from "./OutfitterPageColumn";
+import WardrobePageColumn from "./_components/WardrobePageColumn";
+import EventPageColumn from "./_components/EventPageColumn";
+import OutfitterPageColumn from "./_components/OutfitterPageColumn";
 export default function DashboardHome() {
   return (
-    <div className="flex flex-row items-stretch font-sans  dark:bg-stailistictext-darkgray bg-gray-100 h-dvh w-full select-none">
+    <div className="flex flex-row items-stretch font-sans  dark:bg-stailistictext-darkgray bg-white h-dvh w-full select-none">
       <header className="flex flex-col  md:w-74 sm:w-64 h-full shrink-0 bg-stailistic-blue-faint border-r border-r-gray-300 dark:bg-stailistictext-darkgray">
         <div className="flex justify-center p-4 border-b border-stailistictext-darkgray/30 bg-stailistictext-blue/10">
           <StailisticLogo isButton={true}/>
@@ -54,7 +52,7 @@ function NavButton (props: NavButtonProp){
         <p className="text-stailistictext-blue/80 px-5 font-bold flex justify-center text-2xl xs:text-xl">
           {props.buttonText}
         </p>
-        <p className="text-stailistictext-gray/80 font-bold flex justify-center text-sm xs:hidden text-center">
+        <p className="text-stailistictext-gray/80 font-bold flex justify-center text-sm xs:hidden  text-center">
           {props.smallerText}
         </p>
       </Link>

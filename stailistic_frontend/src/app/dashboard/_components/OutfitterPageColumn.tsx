@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { PageColumnHeader,  } from "./page";
+import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
 
@@ -13,7 +13,7 @@ export default function OutfitterPageColumn(){
       setSearch(currentSearch ?? "Search Outfits");
     }
   return(
-    <div className="flex bg-white flex-col flex-3  sm:w-10 md:w-20 w-30  border-stailistictext-gray overflow-hidden border rounded-lg">
+    <div className="flex bg-white flex-col flex-3  sm:w-10 md:w-20 w-30  border-stailistictext-gray overflow-hidden border rounded-lg shadow-xl focus-within:shadow-blue-200">
         <PageColumnHeader>OUTFITTER</PageColumnHeader>
 
         <div className="flex flex-col h-40 border-b border-b-stailistictext-gray mb-5 md:mb-3 px-2 justify-around">

@@ -1,8 +1,13 @@
 'use client'
 import { useState } from "react";
-import { PageColumnHeader,  } from "./page";
+import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
+import ArticleBox, { WardrobeArticlesInterface } from "./ArticleBox";
+import ScrollableBox from "./ScrollColumn";
+import  { getWardrobeArticlesDummy } from "./getWardrobeArticles";
+  const wardrobeItems = await getWardrobeArticlesDummy();
+
 export default function WardrobePageColumn(){
   const functionEG = (id: string) => {
     console.log(`Button ${id} clicked`);
@@ -11,8 +16,13 @@ export default function WardrobePageColumn(){
   const handleSearching = () => {
     setSearch(currentSearch ?? "Search Wardrobe");
   }
+
+  
+  
+
+
   return(
-    <div className="flex flex-col flex-3 bg-white sm:w-10 md:w-20 w-30 border-stailistictext-gray overflow-hidden border rounded-lg">
+    <div className="flex flex-col flex-3 bg-white sm:w-10 md:w-20 w-30 border-stailistictext-gray  border rounded-lg shadow-xl focus-within:shadow-blue-200 overflow-hidden">
       <PageColumnHeader>WARDROBE</PageColumnHeader>
       <div className="flex flex-col h-40 border-b border-b-stailistictext-gray mb-5 md:mb-3 px-2 justify-around">
         <QuickButtonGroup>
@@ -29,9 +39,11 @@ export default function WardrobePageColumn(){
             <QuickButton onClick={() => functionEG(" test ")}>Replace W Filter</QuickButton>
         </div>
       </div>
-      <QuickButtonGroup>
-        
-      </QuickButtonGroup>
+      <ScrollableBox>
+        {wardrobeItems?.map(item => (
+          <ArticleBox attributes={item} key={item.itemID} />
+        ))}
+      </ScrollableBox>
     </div>
   );
 }

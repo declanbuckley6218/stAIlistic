@@ -17,7 +17,7 @@ export default function QuickButton({ children, className = '', ...props }:Quick
 
 export function QuickButtonGroup({children}: any){
     return(
-        <div className="flex h-fit px-2 justify-between">
+        <div className="flex h-fit px-2 justify-between md:flex-row sm:flex-col ">
             {children}
         </div>
     );
