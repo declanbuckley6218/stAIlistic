@@ -4,6 +4,7 @@ export interface ClothingItem {
   brand: string;
   color?: string;
   type: string;
+  material: string;
   size: string;
   image: string;
   tags: string[];

@@ -60,7 +60,7 @@ export default function WardrobeGrid({
 
   // Grid View (default)
   return (
-    <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="mt-5 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((item) => (
         <WardrobeItem key={item.id} item={item} sizes={""} />
       ))}
