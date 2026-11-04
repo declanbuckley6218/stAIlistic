@@ -11,6 +11,8 @@
 
   --color-stailistictext-darkgray: #404040;
   --color-stailistictext-blue: #4a90e2;
+  --color-stailistic-blue-muted: #6B8FB8;
+  --color-stailistic-blue-faint: #F1F4F8;
   --color-stailistictext-gray: #737373;
 
 /* Font Family */
@@ -21,7 +23,6 @@
 
   /* Color: Black, Text 1, Lighter 25% */
   
-
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
