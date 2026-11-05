@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
-import ArticleBox, { WardrobeArticlesInterface } from "./ArticleBox";
+import ArticleBox from "./ArticleBox";
 import ScrollableBox from "./ScrollColumn";
 import  { getWardrobeArticlesDummy } from "./getWardrobeArticles";
   const wardrobeItems = await getWardrobeArticlesDummy();

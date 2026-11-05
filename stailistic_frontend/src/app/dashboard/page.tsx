@@ -12,7 +12,7 @@ export default function DashboardHome() {
         </div>
 
         <NavButton
-          pageTitle="warbrobe"
+          pageTitle="wardrobe"
           buttonText="Wardrobe"
           smallerText="View, Edit and Add to your Wardrobe"
         />

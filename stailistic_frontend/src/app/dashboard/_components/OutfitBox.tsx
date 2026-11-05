@@ -1,14 +1,8 @@
 import ImageCard, { SmallImageCard } from "@/components/ImageCard";
-import { WardrobeArticlesInterface } from "./ArticleBox";
+import { OutfitInterface } from "@/types/outfits";
+import { WardrobeArticlesInterface } from "@/types/wardrobe";
 
-export interface OutfitInterface {
-    outfitID: number,
-    outfitArticles?: WardrobeArticlesInterface[], //at least should have 3, potench 4, one for shoes, shirt, pants, potench jacket
-    outfitName?: string, //User Defined
-    outfitDescription?: string, //User Defined
-    outfitStyle?: string, //like athletic waer, sweat wear, 
-    outfitEvent?: string, // Actual event of the outfit if any
-}
+
 
 export default function OutfitBox({fitInfo}: {fitInfo: OutfitInterface}){
     return(
