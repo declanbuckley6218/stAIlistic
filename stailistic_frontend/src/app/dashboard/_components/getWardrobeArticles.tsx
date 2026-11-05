@@ -1,4 +1,5 @@
-import { WardrobeArticlesInterface } from "./ArticleBox";
+import { WardrobeArticlesInterface } from "@/types/wardrobe";
+
 export default async function getWardrobeArticles(): Promise<WardrobeArticlesInterface[]>{
     
         // const res = await fetch('need database call here');

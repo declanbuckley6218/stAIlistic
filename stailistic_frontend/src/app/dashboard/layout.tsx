@@ -19,11 +19,12 @@ export const metadata: Metadata = {
 
 export default function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    </html>
+    // <html
+    //   lang="en"
+    //   className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    // >
+    //   <body className="min-h-full flex flex-col">{children}</body>
+    // </html>
+      <div className="min-h-screen flex flex-col">{children}</div>
   );
 }

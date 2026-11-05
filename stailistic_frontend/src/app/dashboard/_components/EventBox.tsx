@@ -1,5 +1,6 @@
-import { EventInfoInterface, RepeatingEventInfoInterface } from "./getEvents";
-import { OutfitInterface, OutfitPhotosBox } from "./OutfitBox";
+import { EventInfoInterface, RepeatingEventInfoInterface } from "@/types/events";
+import { OutfitInterface } from "@/types/outfits";
+import { OutfitPhotosBox } from "./OutfitBox";
 
 const formatDate = (d: Date) =>
     d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });

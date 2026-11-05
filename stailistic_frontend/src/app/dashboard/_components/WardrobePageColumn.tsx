@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
-import ArticleBox, { WardrobeArticlesInterface } from "./ArticleBox";
+import ArticleBox from "./ArticleBox";
 import ScrollableBox from "./ScrollColumn";
 import  { getWardrobeArticlesDummy } from "./getWardrobeArticles";
   const wardrobeItems = await getWardrobeArticlesDummy();
@@ -16,10 +16,6 @@ export default function WardrobePageColumn(){
   const handleSearching = () => {
     setSearch(currentSearch ?? "Search Wardrobe");
   }
-
-  
-  
-
 
   return(
     <div className="flex flex-col flex-3 bg-white sm:w-10 md:w-20 w-30 border-stailistictext-gray  border rounded-lg shadow-xl focus-within:shadow-blue-200 overflow-hidden">

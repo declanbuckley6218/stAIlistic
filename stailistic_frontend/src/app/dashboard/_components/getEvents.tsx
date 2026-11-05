@@ -1,31 +1,6 @@
-import { WardrobeArticlesInterface } from "./ArticleBox";
-import { OutfitInterface } from "./OutfitBox";
-
-export interface EventInfoInterface{
-    eventID: number,
-    repeatEventID: number | null,
-    startDateTime: Date,
-    endDateTime: Date,
-    recursive: boolean,
-    outfit: OutfitInterface,
-    eventDressCode: string,
-    scheduledOutfitCreationDate: Date | null,
-    description: string,
-    eventTitle: string,
-}
-
-export interface RepeatingEventInfoInterface{
-    repeatEventID: number,
-    event: EventInfoInterface,
-    endDate: Date,
-    recursive: boolean,
-    startRecursionDate: Date,
-    endRecursionDate: Date,
-    outfitsWearable: OutfitInterface[],
-    description: string,
-    repeatEventTitle: string
-
-}
+import { EventInfoInterface, RepeatingEventInfoInterface } from "@/types/events";
+import { OutfitInterface } from "@/types/outfits";
+import { WardrobeArticlesInterface } from "@/types/wardrobe";
 
 export default async function getEvents(): Promise<EventInfoInterface[]>{
         // const res = await fetch('need database call here');
