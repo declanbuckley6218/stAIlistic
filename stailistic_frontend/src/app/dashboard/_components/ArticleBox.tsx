@@ -15,7 +15,7 @@ export default function ArticleBox( {attributes} : {attributes: WardrobeArticles
                 <div className="w-fit h-fit mx-auto my-auto">
                     <ImageCard src={attributes.imageDataURL}/>
                 </div>
-                <div className="w-fit h-fit justify-around mx-auto">
+                <div className="w-fit h-fit justify-around mx-auto md:block hidden">
                     <p className="text-stailistictext-gray flex justify-center my-2">
                     {attributes.itemDescription}
                     </p>

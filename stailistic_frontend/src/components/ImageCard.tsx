@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function ImageCard({ src }: { src?: string }) {
   return (
-    <div className="select-none w-64 h-64 sm:w-32 md:w-48 md:h-32 lg:h-48 relative rounded-2xl overflow-hidden border-4 border-white  shadow-[0_0_15px_3px_rgba(0,0,0,0.1)] hover:scale-103 my-auto">
+    <div className="select-none w-16 h-16 sm:w-24 sm:h-24 md:w-[9dvw] md:h-[18dvh]  relative rounded-2xl overflow-hidden border-4 border-white  shadow-[0_0_15px_3px_rgba(0,0,0,0.1)] hover:scale-103 my-auto">
       <Image
         src={src ?? "/NoImageFound.png"}
         alt="No Image Found!"
