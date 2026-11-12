@@ -15,7 +15,7 @@ classDiagram
         photo
     }
     User "1" --> "1" Wardrobe : owns
-    Wardrobe "1" --> "*" ClothingItem : contains
+    Wardrobe "1" --> "M" ClothingItem : contains
 ```
 
 ## 2. Detailed class diagram
@@ -57,7 +57,11 @@ classDiagram
     WardrobeService ..> ClothingItem : creates
 ```
 
-Layers: `UploadDialog` is the UI layer. `WardrobeService` is the application layer. `WardrobeRepository` and `FastAPIEndpoint` are the persistence layer.
+Layers:
+
+- `UploadDialog` is the UI layer.
+- `WardrobeService` is the application layer.
+- `WardrobeRepository` and `FastAPIEndpoint` are the persistence layer.
 
 ## 3. Sequence diagram - item added
 
