@@ -7,9 +7,40 @@ import { LayoutGrid, List, Plus, SquarePen } from "lucide-react";
 import { mockClothingItems } from "@/lib/mockWardrobe";
 import SearchBar from "../../components/wardrobe/SearchBar";
 import QuickFilter from "@/components/wardrobe/QuickFilter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ClothingItem } from "@/types/wardrobe";
+import { getWardrobeController } from "../controllers/WardrobeController";
+import { loadWardrobe } from "../actions/wardrobeActions";
 
 export default function WardrobePage() {
+  const [wardrobeItems, setItems] = useState<ClothingItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const functionEG = (id: string) => {
+      console.log(`Button ${id} clicked`);
+    };
+    const [currentSearch, setSearch] = useState("Search Wardrobe");
+    const handleSearching = () => {
+      setSearch(currentSearch ?? "Search Wardrobe");
+    }
+  
+  
+    useEffect(() => {
+      async function fetchWardrobe() {
+        try {
+          const wardrobe = await loadWardrobe(1);
+          setItems(wardrobe);
+        } catch (error) {
+          console.error("Failed to load wardrobe:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+  
+      fetchWardrobe();
+    }, []);
+    if (loading) 
+      return <p>Loading wardrobe...</p>;
+  
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   return (
     <div className="min-h-screen">

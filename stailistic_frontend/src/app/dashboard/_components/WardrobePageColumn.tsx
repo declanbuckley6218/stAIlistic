@@ -1,14 +1,16 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
 import ArticleBox from "./ArticleBox";
 import ScrollableBox from "./ScrollColumn";
-import  { getWardrobeArticlesDummy } from "./getWardrobeArticles";
-  const wardrobeItems = await getWardrobeArticlesDummy();
+import { ClothingItem } from "@/types/wardrobe";
+import { loadWardrobe } from "@/app/actions/wardrobeActions";
 
 export default function WardrobePageColumn(){
+  const [wardrobeItems, setItems] = useState<ClothingItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const functionEG = (id: string) => {
     console.log(`Button ${id} clicked`);
   };
@@ -16,6 +18,25 @@ export default function WardrobePageColumn(){
   const handleSearching = () => {
     setSearch(currentSearch ?? "Search Wardrobe");
   }
+
+
+  useEffect(() => {
+    async function fetchWardrobe() {
+      try {
+        const wardrobe = await loadWardrobe(1);
+        setItems(wardrobe);
+      } catch (error) {
+        console.error("Failed to load wardrobe:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchWardrobe();
+  }, []);
+  if (loading) 
+    return <p>Loading wardrobe...</p>;
+  
 
   return(
     <div className="flex flex-col flex-3 bg-white sm:w-10 md:w-20 w-30 border-stailistictext-gray  border rounded-lg shadow-xl focus-within:shadow-blue-200 overflow-hidden">
@@ -37,7 +58,7 @@ export default function WardrobePageColumn(){
       </div>
       <ScrollableBox>
         {wardrobeItems?.map(item => (
-          <ArticleBox attributes={item} key={item.itemID} />
+          <ArticleBox attributes={item} key={item.id} />
         ))}
       </ScrollableBox>
     </div>
