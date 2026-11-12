@@ -1,5 +1,0 @@
-ORACLE_USER=dbuckle6
-ORACLE_PASSWORD=hilsakru
-ORACLE_CONNECTION_STRING=jdbc:oracle:thin:@apollo.cecnet.gmu.edu.1521/cecpdb1.cecnet.gmu.edu
-ORACLE_CONNECTION_STRING2=1521/cecpdb1.cecnet.gmu.edu
-ORACLE_CONNECTION_STRING3=apollo.cecnet.gmu.edu.1521/cecpdb1.cecnet.gmu.edu
