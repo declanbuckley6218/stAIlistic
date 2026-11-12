@@ -13,7 +13,7 @@ async function getPool(): Promise<oracledb.Pool> {
         globalForOracle.oraclePoolPromise = oracledb.createPool({
             user: process.env.ORACLE_USER,
             password: process.env.ORACLE_PASSWORD,
-            connectString: process.env.ORACLE_CONNECTION_STRING3,
+            connectString: process.env.ORACLE_CONNECTION_STRING,
             poolMin: 2,
             poolMax: 10,
         });

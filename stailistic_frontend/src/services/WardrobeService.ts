@@ -20,7 +20,7 @@ export async function getWardrobeItems(
                 c.COLOR,
                 c.TYPE,
                 c.MATERIAL,
-                c.SIZE,
+                c.ITEM_SIZE,
                 c.IMAGE,
                 COALESCE(
                     (
@@ -58,7 +58,7 @@ export async function getWardrobeItems(
                 color: row.COLOR,
                 type: row.TYPE,
                 material: row.MATERIAL,
-                size: row.SIZE,
+                size: row.ITEM_SIZE,
                 image: imageBase64,
                 tags: typeof row.TAGS === "string"
                     ? JSON.parse(row.TAGS)
