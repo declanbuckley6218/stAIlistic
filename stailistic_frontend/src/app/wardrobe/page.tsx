@@ -8,9 +8,12 @@ import { mockClothingItems } from "@/lib/mockWardrobe";
 import SearchBar from "../../components/wardrobe/SearchBar";
 import QuickFilter from "@/components/wardrobe/QuickFilter";
 import { useState } from "react";
+import UploadDialog from "@/components/wardrobe/UploadDialog";
 
 export default function WardrobePage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [items, setItems] = useState(mockClothingItems);
+  const [showUpload, setShowUpload] = useState(false);
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between px-8 py-3">
@@ -21,7 +24,7 @@ export default function WardrobePage() {
             <SquarePen />
             <span className="hidden sm:inline">Edit</span>
           </Button>
-          <Button size="lg">
+          <Button size="lg" onClick={() => setShowUpload(true)}>
             <Plus />
             <span className="hidden sm:inline">Upload</span>
           </Button>
@@ -54,11 +57,17 @@ export default function WardrobePage() {
           </div>
         </div>
         <WardrobeGrid
-          items={mockClothingItems}
+          items={items}
           viewMode={viewMode}
           onItemClick={(id) => console.log("Clicked item with id:", id)}
         />
       </div>
+      {showUpload && (
+        <UploadDialog
+          onClose={() => setShowUpload(false)}
+          onAdded={(item) => setItems([item, ...items])}
+        />
+      )}
     </div>
   );
 }
