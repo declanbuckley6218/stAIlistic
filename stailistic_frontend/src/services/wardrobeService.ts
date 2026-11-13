@@ -18,17 +18,16 @@ export async function addClothingItem(
   if (!input.image) throw new Error("Please add a photo.");
   if (!input.type) throw new Error("Please pick a category.");
 
-  const item: ClothingItem = {
-    id: crypto.randomUUID(),
+  const item = {
     name: input.name || "Untitled",
     brand: "",
     color: input.color,
     type: input.type,
-    material: "",
-    size: "",
+    material: "Unknown",
+    size: "Unknown",
     image: input.image,
     tags: getAiTags(input),
   };
-  await insertClothingItem(item);
-  return item;
+  const id = await insertClothingItem(item);
+  return { ...item, id };
 }

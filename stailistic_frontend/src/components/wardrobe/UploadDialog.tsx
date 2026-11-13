@@ -5,8 +5,9 @@ import { ClothingItem } from "@/types/wardrobe";
 import { addClothingItem } from "@/services/wardrobeService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CLOTHING_CATEGORY_MAP } from "@/components/wardrobe/WardrobeSearchBar";
 
-const categories = ["Top", "Bottom", "Shoes", "Outerwear", "Accessory"];
+const categories = Object.values(CLOTHING_CATEGORY_MAP).flat();
 
 interface UploadDialogProp {
   onClose: () => void;
@@ -43,10 +44,13 @@ export default function UploadDialog({ onClose, onAdded }: UploadDialogProp) {
         <h2 className="text-xl font-semibold">Add clothing item</h2>
         <Input
           type="file"
-          accept="image/*"
+          accept="image/jpeg"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            setImage(file ? URL.createObjectURL(file) : "");
+            if (!file) return setImage("");
+            const reader = new FileReader();
+            reader.onload = () => setImage(reader.result as string);
+            reader.readAsDataURL(file);
           }}
         />
         <Input

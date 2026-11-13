@@ -19,7 +19,6 @@ export default function WardrobePage() {
   const [wardrobeItems, setWardrobeItems] = useState<ClothingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [items, setItems] = useState<ClothingItem[]>([]);
   const [editingItem, setEditingItem] = useState<ClothingItem | null>(null);
 
   const [currentSearch, setSearch] = useState("");
@@ -95,7 +94,6 @@ export default function WardrobePage() {
       try {
         const wardrobe = await loadWardrobe(1);
         setWardrobeItems(wardrobe);
-        setItems(wardrobe);
       } catch (error) {
         console.error("Failed to load wardrobe:", error);
       } finally {
@@ -181,7 +179,7 @@ export default function WardrobePage() {
       {showUpload && (
         <UploadDialog
           onClose={() => setShowUpload(false)}
-          onAdded={(item) => setItems([item, ...items])}
+          onAdded={(item) => setWardrobeItems((prev) => [item, ...prev])}
         />
       )}
     </div>

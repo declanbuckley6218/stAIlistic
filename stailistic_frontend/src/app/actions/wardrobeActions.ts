@@ -1,7 +1,10 @@
 "use server";
 
 import { getWardrobeController } from "@/app/controllers/WardrobeController";
-import { updateWardrobeItem } from "@/services/WardrobeDatabaseService";
+import {
+  insertWardrobeItem,
+  updateWardrobeItem,
+} from "@/services/WardrobeDatabaseService";
 import { ClothingItem } from "@/types/wardrobe";
 
 export async function loadWardrobe(userid: number) {
@@ -14,4 +17,8 @@ export async function updateItem(
   updates: Partial<Omit<ClothingItem, "id" | "userid">>,
 ) {
   return updateWardrobeItem(itemId, userid, updates);
+}
+
+export async function addItem(userid: number, item: Omit<ClothingItem, "id">) {
+  return insertWardrobeItem(userid, item);
 }
