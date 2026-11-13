@@ -97,9 +97,3 @@ export const filterGroups: FilterGroup[] = [
   },
 ];
 
-export const CLOTHING_TYPES = [
-  "Tops",
-  "Bottoms",
-  "Shoes",
-  "Accessories",
-] as const;

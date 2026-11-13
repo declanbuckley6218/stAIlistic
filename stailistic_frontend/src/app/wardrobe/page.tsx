@@ -4,16 +4,108 @@ import WardrobeGrid from "@/components/wardrobe/WardrobeGrid";
 import { Button } from "@/components/ui/button";
 import StailisticLogo from "@/components/ui/stailisticlogo";
 import { LayoutGrid, List, Plus, SquarePen } from "lucide-react";
-import { mockClothingItems } from "@/lib/mockWardrobe";
-import SearchBar from "../../components/wardrobe/SearchBar";
+import WardrobeSearchBar, { CLOTHING_CATEGORY_MAP } from "../../components/wardrobe/WardrobeSearchBar";
 import QuickFilter from "@/components/wardrobe/QuickFilter";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ClothingItem } from "@/types/wardrobe";
+import { loadWardrobe } from "../actions/wardrobeActions";
+import { SelectedFilters } from "@/components/wardrobe/FilterPopover";
 import UploadDialog from "@/components/wardrobe/UploadDialog";
 
 export default function WardrobePage() {
+  const [wardrobeItems, setWardrobeItems] = useState<ClothingItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [items, setItems] = useState(mockClothingItems);
+  const [items, setItems] = useState<ClothingItem[]>([]);
+
+  const [currentSearch, setSearch] = useState("");
+  const [selectedFilters, setSelectedFilters] =
+    useState<SelectedFilters>({});
+  const filteredItems = useMemo(() => {
+    const terms = currentSearch
+        .toLowerCase()
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    return wardrobeItems.filter((item) => {
+        const searchableText = [
+            item.id,
+            item.name,
+            item.brand,
+            item.color,
+            item.type,
+            item.material,
+            item.size,
+            ...(item.tags ?? []),
+        ]
+            .filter((value) => value != null)
+            .join(" ")
+            .toLowerCase();
+
+        const matchesSearch = terms.every((term) =>
+            searchableText.includes(term)
+        );
+
+        const matchesFilters = Object.entries(selectedFilters).every(
+          ([groupKey, selectedOptions]) => {
+            if (selectedOptions.length === 0) 
+              return true;
+
+              const itemValue = (
+                item as unknown as Record<string, unknown>
+              )[groupKey];
+
+              const itemValues = Array.isArray(itemValue)
+                ? itemValue.map(String)
+                : itemValue != null
+                  ? [String(itemValue)]
+                  : [];
+              if (groupKey === "type") {
+                return selectedOptions.some((category) => {
+                  const categoryTypes =
+                    CLOTHING_CATEGORY_MAP[category] ?? [category];
+
+                return categoryTypes.some((type) =>
+                  itemValues.some(
+                    (value) =>
+                      value.toLowerCase() === type.toLowerCase()
+                  )
+                );
+            });}
+
+            return selectedOptions.some((option) =>
+              itemValues.some(
+                (value) =>
+                  value.toLowerCase() === option.toLowerCase()
+              )
+            );
+          }
+        );
+
+        return matchesSearch && matchesFilters;
+    });
+}, [wardrobeItems, currentSearch, selectedFilters]);  
   const [showUpload, setShowUpload] = useState(false);
+
+  useEffect(() => {
+    async function fetchWardrobe() {
+      try {
+        const wardrobe = await loadWardrobe(1);
+        setWardrobeItems(wardrobe);
+        setItems(wardrobe);
+      } catch (error) {
+        console.error("Failed to load wardrobe:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchWardrobe();
+  }, []);
+  if (loading) 
+    return <p>Loading wardrobe...</p>;
+  
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between px-8 py-3">
@@ -32,9 +124,18 @@ export default function WardrobePage() {
       </header>
 
       <div className="mx-auto py-2 sm:px-6 lg:px-8">
-        <SearchBar />
+        <WardrobeSearchBar
+          value={currentSearch}
+          onChange={setSearch}
+          placeholder="Search by name, brand, color..."
+          selectedFilters={selectedFilters}
+          onFiltersChange={setSelectedFilters}
+        />
         <div className="mt-4 flex items-center justify-between">
-          <QuickFilter />
+          <QuickFilter
+            selectedFilters={selectedFilters}
+            onFiltersChange={setSelectedFilters}
+          />
           <div className="flex shrink-0 rounded-lg border bg-white p-0.5">
             <Button
               variant={viewMode === "grid" ? "secondary" : "ghost"}
@@ -57,7 +158,8 @@ export default function WardrobePage() {
           </div>
         </div>
         <WardrobeGrid
-          items={items}
+          items={filteredItems.length > 0 ? ( filteredItems ) : ( undefined)}
+          currentSearch={currentSearch}
           viewMode={viewMode}
           onItemClick={(id) => console.log("Clicked item with id:", id)}
         />

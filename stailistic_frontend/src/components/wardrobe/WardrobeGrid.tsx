@@ -3,16 +3,27 @@ import WardrobeItem from "./WardrobeItem";
 import { URL } from "node:url";
 
 interface WardrobeItemProp {
-  items: ClothingItem[];
+  items?: ClothingItem[];
+  currentSearch?: string;
   viewMode: "grid" | "list";
   onItemClick: (id: string) => void;
 }
 
 export default function WardrobeGrid({
   items,
+  currentSearch,
   viewMode,
   onItemClick,
 }: WardrobeItemProp) {
+  if(items == null){
+    return ( 
+       <p className="text-center text-gray-400 py-8 px-4">
+          {currentSearch?.trim()
+            ? `No clothing items found for "${currentSearch}".`
+            : "Your wardrobe is empty."}
+        </p> 
+    );
+  }
   // List view
   if (viewMode === "list") {
     return (

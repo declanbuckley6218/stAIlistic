@@ -1,5 +1,3 @@
-import { WardrobeArticlesInterface } from "./ArticleBox";
-import { OutfitInterface } from "./OutfitBox";
 // export interface OutfitInterface {
 //     outfitID: number,
 //     clothingItems?: , //at least should have 3, potench 4, one for shoes, shirt, pants, potench jacket
@@ -7,6 +5,10 @@ import { OutfitInterface } from "./OutfitBox";
 //     outfitDescription?: string, //User Defined
 //     outfitStyle?: string, //like athletic waer, sweat wear, 
 //     outfitEvent?: string, // actual event
+
+import { OutfitInterface } from "@/types/outfits";
+import { WardrobeArticlesInterface } from "@/types/wardrobe";
+
 // }
 export default async function getOutfits(): Promise<OutfitInterface[]>{
         // const res = await fetch('need database call here');
