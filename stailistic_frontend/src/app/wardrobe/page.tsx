@@ -13,9 +13,10 @@ import { SelectedFilters } from "@/components/wardrobe/FilterPopover";
 import UploadDialog from "@/components/wardrobe/UploadDialog";
 
 export default function WardrobePage() {
-  const [wardrobeItems, setItems] = useState<ClothingItem[]>([]);
+  const [wardrobeItems, setWardrobeItems] = useState<ClothingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [items, setItems] = useState<ClothingItem[]>([]);
 
   const [currentSearch, setSearch] = useState("");
   const [selectedFilters, setSelectedFilters] =
@@ -85,11 +86,13 @@ export default function WardrobePage() {
         return matchesSearch && matchesFilters;
     });
 }, [wardrobeItems, currentSearch, selectedFilters]);  
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     async function fetchWardrobe() {
       try {
         const wardrobe = await loadWardrobe(1);
+        setWardrobeItems(wardrobe);
         setItems(wardrobe);
       } catch (error) {
         console.error("Failed to load wardrobe:", error);
@@ -103,7 +106,6 @@ export default function WardrobePage() {
   if (loading) 
     return <p>Loading wardrobe...</p>;
   
-  const [showUpload, setShowUpload] = useState(false);
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between px-8 py-3">
