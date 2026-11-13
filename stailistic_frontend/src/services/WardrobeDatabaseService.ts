@@ -36,7 +36,10 @@ export async function getWardrobeItems(
             ORDER BY c.ID
             `,
       { userid },
-      { outFormat: oracledb.OUT_FORMAT_OBJECT },
+      {
+        outFormat: oracledb.OUT_FORMAT_OBJECT,
+        fetchInfo: { IMAGE: { type: oracledb.BUFFER } },
+      },
     );
 
     return (result.rows || []).map((row: any) => {
@@ -187,6 +190,63 @@ export async function updateWardrobeItem(
     return true;
   } catch (error) {
     console.error("Wardrobe Update Error:", error);
+    if (connection) {
+      await connection.rollback();
+    }
+    throw error;
+  } finally {
+    if (connection) {
+      await connection.close();
+    }
+  }
+}
+
+export async function insertWardrobeItem(
+  userid: number,
+  item: Omit<ClothingItem, "id">,
+): Promise<string> {
+  let connection;
+  try {
+    connection = await getConnection();
+    const base64Data = item.image.replace(/^data:image\/\w+;base64,/, "");
+    const result = await connection.execute(
+      `
+            INSERT INTO ClothingItem
+                (ID, USERID, NAME, BRAND, COLOR, TYPE, MATERIAL, ITEM_SIZE, IMAGE)
+            VALUES
+                ((SELECT NVL(MAX(ID), 0) + 1 FROM ClothingItem), :userid, :p_name, :p_brand, :p_color, :p_type, :p_material, :p_size, :p_image)
+            RETURNING ID INTO :p_id
+            `,
+      {
+        userid,
+        p_name: item.name,
+        p_brand: item.brand,
+        p_color: item.color,
+        p_type: item.type,
+        p_material: item.material,
+        p_size: item.size,
+        p_image: { val: Buffer.from(base64Data, "base64"), type: oracledb.BLOB },
+        p_id: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER },
+      },
+      { autoCommit: false },
+    );
+    const id = (result.outBinds as { p_id: number[] }).p_id[0];
+
+    if (item.tags.length > 0) {
+      await connection.executeMany(
+        `
+                INSERT INTO ItemTags (ITEMID, TAG)
+                VALUES (:id, :tag)
+                `,
+        item.tags.map((tag) => ({ id, tag })),
+        { autoCommit: false },
+      );
+    }
+
+    await connection.commit();
+    return String(id);
+  } catch (error) {
+    console.error("Wardrobe Insert Error:", error);
     if (connection) {
       await connection.rollback();
     }

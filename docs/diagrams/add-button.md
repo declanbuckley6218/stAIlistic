@@ -1,6 +1,6 @@
 # Add Button (Upload Clothing Item) - Design Diagrams
 
-Issue #26. Code: `UploadDialog.tsx`, `wardrobeService.ts`, `wardrobeRepository.ts`, `stailistic_backend/main.py`.
+Issue #26. Code: `UploadDialog.tsx`, `wardrobeService.ts`, `wardrobeRepository.ts`, `wardrobeActions.ts`, `WardrobeDatabaseService.ts`.
 
 ## 1. Conceptual class diagram
 
@@ -35,10 +35,10 @@ classDiagram
         -getAiTags(item: NewClothingItem) string[]
     }
     class WardrobeRepository {
-        +insertClothingItem(item: ClothingItem) Promise~void~
+        +insertClothingItem(item: ClothingItem) Promise~string~
     }
-    class FastAPIEndpoint {
-        +insert_clothing_item(item: ClothingItem) ClothingItem
+    class WardrobeDatabaseService {
+        +insertWardrobeItem(userid: number, item: ClothingItem) Promise~string~
     }
     class ClothingItem {
         +id: string
@@ -53,7 +53,7 @@ classDiagram
     }
     UploadDialog --> WardrobeService : calls
     WardrobeService --> WardrobeRepository : calls
-    WardrobeRepository --> FastAPIEndpoint : POST /items
+    WardrobeRepository --> WardrobeDatabaseService : addItem action
     WardrobeService ..> ClothingItem : creates
 ```
 
@@ -61,7 +61,7 @@ Layers:
 
 - `UploadDialog` is the UI layer.
 - `WardrobeService` is the application layer.
-- `WardrobeRepository` and `FastAPIEndpoint` are the persistence layer.
+- `WardrobeRepository` and `WardrobeDatabaseService` are the persistence layer.
 
 ## 3. Sequence diagram - item added
 
@@ -71,15 +71,15 @@ sequenceDiagram
     participant UploadDialog
     participant WardrobeService
     participant WardrobeRepository
-    participant FastAPIEndpoint as FastAPI Endpoint
+    participant WardrobeDatabaseService
     participant Database
     User->>UploadDialog: click Add
     UploadDialog->>WardrobeService: addClothingItem(input)
     WardrobeService->>WardrobeService: check photo and category
     WardrobeService->>WardrobeRepository: insertClothingItem(item)
-    WardrobeRepository->>FastAPIEndpoint: POST /items
-    FastAPIEndpoint->>Database: INSERT INTO ClothingItem
-    FastAPIEndpoint-->>WardrobeRepository: 200 OK
+    WardrobeRepository->>WardrobeDatabaseService: addItem(1, item)
+    WardrobeDatabaseService->>Database: INSERT INTO ClothingItem
+    WardrobeDatabaseService-->>WardrobeRepository: new item id
     WardrobeService-->>UploadDialog: ClothingItem
     UploadDialog-->>User: item shows in grid
 ```

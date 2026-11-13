@@ -1,10 +1,8 @@
 import { ClothingItem } from "@/types/wardrobe";
+import { addItem } from "@/app/actions/wardrobeActions";
 
-export async function insertClothingItem(item: ClothingItem): Promise<void> {
-  const res = await fetch("http://localhost:8000/items", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(item),
-  });
-  if (!res.ok) throw new Error("Could not save the item.");
+export async function insertClothingItem(
+  item: Omit<ClothingItem, "id">,
+): Promise<string> {
+  return addItem(1, item);
 }
