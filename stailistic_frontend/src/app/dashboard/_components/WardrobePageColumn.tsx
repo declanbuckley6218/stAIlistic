@@ -28,7 +28,6 @@ export default function WardrobePageColumn(){
         }
 
         return wardrobeItems.filter((item) => {
-            // Combine all searchable clothing attributes
             const searchableText = [
                 item.id,
                 item.name,
@@ -43,7 +42,6 @@ export default function WardrobePageColumn(){
                 .join(" ")
                 .toLowerCase();
 
-            // Every search term must appear somewhere in the item
             return searchTerms.every(term =>
                 searchableText.includes(term)
             );
@@ -66,7 +64,6 @@ export default function WardrobePageColumn(){
   }, []);
   if (loading) 
     return <p>Loading wardrobe...</p>;
-  
 
   return(
     <div className="flex flex-col flex-3 bg-white sm:w-10 md:w-20 w-30 border-stailistictext-gray  border rounded-lg shadow-xl focus-within:shadow-blue-200 overflow-hidden">
