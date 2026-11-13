@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ClothingItem } from "@/types/wardrobe";
 import { loadWardrobe } from "../actions/wardrobeActions";
 import { SelectedFilters } from "@/components/wardrobe/FilterPopover";
+import UploadDialog from "@/components/wardrobe/UploadDialog";
 
 export default function WardrobePage() {
   const [wardrobeItems, setItems] = useState<ClothingItem[]>([]);
@@ -102,7 +103,7 @@ export default function WardrobePage() {
   if (loading) 
     return <p>Loading wardrobe...</p>;
   
-  
+  const [showUpload, setShowUpload] = useState(false);
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between px-8 py-3">
@@ -113,7 +114,7 @@ export default function WardrobePage() {
             <SquarePen />
             <span className="hidden sm:inline">Edit</span>
           </Button>
-          <Button size="lg">
+          <Button size="lg" onClick={() => setShowUpload(true)}>
             <Plus />
             <span className="hidden sm:inline">Upload</span>
           </Button>
@@ -161,6 +162,12 @@ export default function WardrobePage() {
           onItemClick={(id) => console.log("Clicked item with id:", id)}
         />
       </div>
+      {showUpload && (
+        <UploadDialog
+          onClose={() => setShowUpload(false)}
+          onAdded={(item) => setItems([item, ...items])}
+        />
+      )}
     </div>
   );
 }
