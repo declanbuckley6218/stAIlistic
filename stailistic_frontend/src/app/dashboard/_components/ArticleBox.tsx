@@ -15,10 +15,19 @@ export default function ArticleBox( {attributes} : {attributes: ClothingItem}){
                 <div className="w-fit h-fit mx-auto my-auto">
                     <ImageCard src={attributes.image}/>
                 </div>
-                <div className="w-fit h-fit justify-around mx-auto">
-                    <p className="text-stailistictext-gray flex justify-center my-2">
-                    {attributes.tags}
-                    </p>
+                <div className="w-fit h-fit justify-around mx-auto my-2">
+                    <div className="flex flex-wrap gap-2">
+                        {attributes.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="rounded-full bg-[#eaf1f8] px-3 py-1
+                                           text-xs font-medium text-[#527da8]
+                                           border border-[#d8e4f0]"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
                     <ol>
                         {(attributes.brand != undefined && attributes.brand != null) ? <li> <span className="text-stailistictext-gray justify-left flex-row flex"><p className="font-bold">Brand:</p> {attributes.brand}</span> </li> : <></> }
                         {(attributes.type != undefined && attributes.type != null) ? <li> <span className="text-stailistictext-gray justify-left flex-row flex"><p className="font-bold">Type:</p> {attributes.type}</span> </li> : <></> }

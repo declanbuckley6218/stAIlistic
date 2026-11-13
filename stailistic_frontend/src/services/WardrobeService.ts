@@ -1,7 +1,7 @@
+import "server-only";
 import { ClothingItem } from "@/types/wardrobe";
 import oracledb from "oracledb";
 import { getConnection } from "@/lib/oracleConnectionCreator";
-import "server-only";
 export async function getWardrobeItems(
     userid: number
 ): Promise<ClothingItem[]> {

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageColumnHeader } from "../page";
 import { PageColumnSearchBar } from "./PageColumnSearcher";
 import QuickButton, { QuickButtonGroup } from "./QuickButton";
@@ -14,12 +14,42 @@ export default function WardrobePageColumn(){
   const functionEG = (id: string) => {
     console.log(`Button ${id} clicked`);
   };
-  const [currentSearch, setSearch] = useState("Search Wardrobe");
-  const handleSearching = () => {
-    setSearch(currentSearch ?? "Search Wardrobe");
-  }
+  const [currentSearch, setSearch] = useState("");
 
+  const filteredItems = useMemo(() => {
+        const searchTerms = currentSearch
+            .toLowerCase()
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
 
+        if (searchTerms.length === 0) {
+            return wardrobeItems;
+        }
+
+        return wardrobeItems.filter((item) => {
+            // Combine all searchable clothing attributes
+            const searchableText = [
+                item.id,
+                item.name,
+                item.brand,
+                item.color,
+                item.type,
+                item.material,
+                item.size,
+                ...(item.tags ?? [])
+            ]
+                .filter(value => value !== null && value !== undefined)
+                .join(" ")
+                .toLowerCase();
+
+            // Every search term must appear somewhere in the item
+            return searchTerms.every(term =>
+                searchableText.includes(term)
+            );
+        });
+    }, [wardrobeItems, currentSearch]);
+    
   useEffect(() => {
     async function fetchWardrobe() {
       try {
@@ -55,12 +85,28 @@ export default function WardrobePageColumn(){
             </PageColumnSearchBar>
             <QuickButton onClick={() => functionEG(" test ")}>Replace W Filter</QuickButton>
         </div>
+        <p className="text-xs text-gray-400 px-3">
+            Showing {filteredItems.length} of {wardrobeItems.length} items
+        </p>
       </div>
+
       <ScrollableBox>
-        {wardrobeItems?.map(item => (
-          <ArticleBox attributes={item} key={item.id} />
-        ))}
+        {filteredItems.length > 0 ? (
+          filteredItems.map(item => (
+            <ArticleBox
+              attributes={item}
+              key={item.id}
+            />
+          ))
+        ) : (
+          <p className="text-center text-gray-400 py-8 px-4">
+            {currentSearch.trim()
+              ? `No clothing items found for "${currentSearch}".`
+              : "Your wardrobe is empty."}
+          </p>
+          )}
       </ScrollableBox>
+      
     </div>
   );
 }
