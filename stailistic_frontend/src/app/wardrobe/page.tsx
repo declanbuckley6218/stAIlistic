@@ -3,89 +3,91 @@
 import WardrobeGrid from "@/components/wardrobe/WardrobeGrid";
 import { Button } from "@/components/ui/button";
 import StailisticLogo from "@/components/ui/stailisticlogo";
-import { LayoutGrid, List, Plus, SquarePen } from "lucide-react";
-import WardrobeSearchBar, { CLOTHING_CATEGORY_MAP } from "../../components/wardrobe/WardrobeSearchBar";
+import { Edit, LayoutGrid, List, Plus, SquarePen } from "lucide-react";
+import WardrobeSearchBar, {
+  CLOTHING_CATEGORY_MAP,
+} from "../../components/wardrobe/WardrobeSearchBar";
 import QuickFilter from "@/components/wardrobe/QuickFilter";
 import { useEffect, useMemo, useState } from "react";
 import { ClothingItem } from "@/types/wardrobe";
 import { loadWardrobe } from "../actions/wardrobeActions";
 import { SelectedFilters } from "@/components/wardrobe/FilterPopover";
 import UploadDialog from "@/components/wardrobe/UploadDialog";
+import EditItemDialog from "@/components/wardrobe/EditItemDialog";
 
 export default function WardrobePage() {
   const [wardrobeItems, setWardrobeItems] = useState<ClothingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [items, setItems] = useState<ClothingItem[]>([]);
+  const [editingItem, setEditingItem] = useState<ClothingItem | null>(null);
 
   const [currentSearch, setSearch] = useState("");
-  const [selectedFilters, setSelectedFilters] =
-    useState<SelectedFilters>({});
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({});
   const filteredItems = useMemo(() => {
     const terms = currentSearch
-        .toLowerCase()
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean);
+      .toLowerCase()
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
 
     return wardrobeItems.filter((item) => {
-        const searchableText = [
-            item.id,
-            item.name,
-            item.brand,
-            item.color,
-            item.type,
-            item.material,
-            item.size,
-            ...(item.tags ?? []),
-        ]
-            .filter((value) => value != null)
-            .join(" ")
-            .toLowerCase();
+      const searchableText = [
+        item.id,
+        item.name,
+        item.brand,
+        item.color,
+        item.type,
+        item.material,
+        item.size,
+        ...(item.tags ?? []),
+      ]
+        .filter((value) => value != null)
+        .join(" ")
+        .toLowerCase();
 
-        const matchesSearch = terms.every((term) =>
-            searchableText.includes(term)
-        );
+      const matchesSearch = terms.every((term) =>
+        searchableText.includes(term),
+      );
 
-        const matchesFilters = Object.entries(selectedFilters).every(
-          ([groupKey, selectedOptions]) => {
-            if (selectedOptions.length === 0) 
-              return true;
+      const matchesFilters = Object.entries(selectedFilters).every(
+        ([groupKey, selectedOptions]) => {
+          if (selectedOptions.length === 0) return true;
 
-              const itemValue = (
-                item as unknown as Record<string, unknown>
-              )[groupKey];
+          const itemValue = (item as unknown as Record<string, unknown>)[
+            groupKey
+          ];
 
-              const itemValues = Array.isArray(itemValue)
-                ? itemValue.map(String)
-                : itemValue != null
-                  ? [String(itemValue)]
-                  : [];
-              if (groupKey === "type") {
-                return selectedOptions.some((category) => {
-                  const categoryTypes =
-                    CLOTHING_CATEGORY_MAP[category] ?? [category];
+          const itemValues = Array.isArray(itemValue)
+            ? itemValue.map(String)
+            : itemValue != null
+              ? [String(itemValue)]
+              : [];
+          if (groupKey === "type") {
+            return selectedOptions.some((category) => {
+              const categoryTypes = CLOTHING_CATEGORY_MAP[category] ?? [
+                category,
+              ];
 
-                return categoryTypes.some((type) =>
-                  itemValues.some(
-                    (value) =>
-                      value.toLowerCase() === type.toLowerCase()
-                  )
-                );
-            });}
-
-            return selectedOptions.some((option) =>
-              itemValues.some(
-                (value) =>
-                  value.toLowerCase() === option.toLowerCase()
-              )
-            );
+              return categoryTypes.some((type) =>
+                itemValues.some(
+                  (value) => value.toLowerCase() === type.toLowerCase(),
+                ),
+              );
+            });
           }
-        );
 
-        return matchesSearch && matchesFilters;
+          return selectedOptions.some((option) =>
+            itemValues.some(
+              (value) => value.toLowerCase() === option.toLowerCase(),
+            ),
+          );
+        },
+      );
+
+      return matchesSearch && matchesFilters;
     });
-}, [wardrobeItems, currentSearch, selectedFilters]);  
+  }, [wardrobeItems, currentSearch, selectedFilters]);
   const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
@@ -103,19 +105,18 @@ export default function WardrobePage() {
 
     fetchWardrobe();
   }, []);
-  if (loading) 
-    return <p>Loading wardrobe...</p>;
-  
+  if (loading) return <p>Loading wardrobe...</p>;
+
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between px-8 py-3">
         <StailisticLogo isButton={true} />
         <div className="flex gap-3"></div>
         <div className="flex gap-3">
-          <Button variant="outline" size="lg">
+          {/* <Button variant="outline" size="lg">
             <SquarePen />
-            <span className="hidden sm:inline">Edit</span>
-          </Button>
+            <span className="hidden sm:inline">Select</span>
+          </Button> */}
           <Button size="lg" onClick={() => setShowUpload(true)}>
             <Plus />
             <span className="hidden sm:inline">Upload</span>
@@ -158,11 +159,24 @@ export default function WardrobePage() {
           </div>
         </div>
         <WardrobeGrid
-          items={filteredItems.length > 0 ? ( filteredItems ) : ( undefined)}
+          items={filteredItems.length > 0 ? filteredItems : undefined}
           currentSearch={currentSearch}
           viewMode={viewMode}
-          onItemClick={(id) => console.log("Clicked item with id:", id)}
+          onItemClick={(id) =>
+            setEditingItem(wardrobeItems.find((i) => i.id === id) ?? null)
+          }
         />
+        {editingItem && (
+          <EditItemDialog
+            item={editingItem}
+            onClose={() => setEditingItem(null)}
+            onSaved={(updated) =>
+              setWardrobeItems((prev) =>
+                prev.map((i) => (i.id === updated.id ? updated : i)),
+              )
+            }
+          />
+        )}
       </div>
       {showUpload && (
         <UploadDialog
