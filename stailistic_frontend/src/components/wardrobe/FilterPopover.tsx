@@ -48,80 +48,78 @@ export default function FilterPopover({
 
     return (
         <Popover>
-            <PopoverTrigger
-                render={
-                    <Button variant="outline" className="h-10 bg-white" />
-                }
-            >
-                <SlidersHorizontal className="size-4" />
-                <span className="hidden sm:inline">Filters</span>
+          <PopoverTrigger
+            render={
+              <Button variant="outline" className="h-10 bg-white" />
+            }>
+              <SlidersHorizontal className="size-4" />
+              <span className="hidden sm:inline">Filters</span>
+
+              {activeFilterCount > 0 && (
+              <span className="ml-1 flex size-5 items-center justify-center rounded-full bg-blue-100 text-xs text-blue-700">
+                {activeFilterCount}
+              </span>
+            )}
+          </PopoverTrigger>
+
+          <PopoverContent className="w-80" align="end">
+            <div className="grid gap-4">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">
+                    Filters
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Narrow down your wardrobe.
+                  </p>
+                </div>
 
                 {activeFilterCount > 0 && (
-                    <span className="ml-1 flex size-5 items-center justify-center rounded-full bg-blue-100 text-xs text-blue-700">
-                        {activeFilterCount}
-                    </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="h-auto px-2 py-1 text-xs"
+                  >
+                    Clear all
+                  </Button>
                 )}
-            </PopoverTrigger>
+              </div>
 
-            <PopoverContent className="w-80" align="end">
-                <div className="grid gap-4">
-                    <div className="flex items-start justify-between">
-                        <div className="space-y-2">
-                            <h4 className="font-medium leading-none">
-                                Filters
-                            </h4>
-                            <p className="text-sm text-muted-foreground">
-                                Narrow down your wardrobe.
-                            </p>
-                        </div>
+              <div className="max-h-96 space-y-4 overflow-y-auto">
+                {filterGroups.map((group) => (
+                  <div key={group.key} className="space-y-2">
+                    <p className="text-sm font-medium">
+                      {group.label}
+                    </p>
 
-                        {activeFilterCount > 0 && (
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={clearFilters}
-                                className="h-auto px-2 py-1 text-xs"
-                            >
-                                Clear all
-                            </Button>
-                        )}
+                    <div className="grid grid-cols-2 gap-2">
+                      {group.options.map((option) => (
+                        <Label
+                          key={option}
+                          className="flex cursor-pointer items-center gap-2 font-normal"
+                        >
+                        <Checkbox
+                          checked={
+                            selectedFilters[group.key]
+                              ?.includes(option) ?? false
+                          }
+                          onCheckedChange={(checked) =>
+                            handleFilterChange(
+                              group.key,
+                              option,
+                              checked === true
+                            )}
+                        />
+                        {option}
+                        </Label>
+                      ))}
                     </div>
-
-                    <div className="max-h-96 space-y-4 overflow-y-auto">
-                        {filterGroups.map((group) => (
-                            <div key={group.key} className="space-y-2">
-                                <p className="text-sm font-medium">
-                                    {group.label}
-                                </p>
-
-                                <div className="grid grid-cols-2 gap-2">
-                                    {group.options.map((option) => (
-                                        <Label
-                                            key={option}
-                                            className="flex cursor-pointer items-center gap-2 font-normal"
-                                        >
-                                            <Checkbox
-                                                checked={
-                                                    selectedFilters[group.key]
-                                                        ?.includes(option) ?? false
-                                                }
-                                                onCheckedChange={(checked) =>
-                                                    handleFilterChange(
-                                                        group.key,
-                                                        option,
-                                                        checked === true
-                                                    )
-                                                }
-                                            />
-                                            {option}
-                                        </Label>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </PopoverContent>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </PopoverContent>
         </Popover>
     );
 }

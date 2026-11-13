@@ -1,6 +1,4 @@
-
 "use client";
-
 
 import { Button } from "../ui/button";
 import { SelectedFilters } from "@/components/wardrobe/FilterPopover";
@@ -39,27 +37,24 @@ export default function QuickFilter({
     };
 
     return (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-            <Button
-                variant={selectedTypes.length === 0 ? "default" : "outline"}
-                className="shrink-0 rounded-xl"
-                onClick={() => handleTypeChange("All")}
-            >
-                All
-            </Button>
-
-            {CLOTHING_TYPES.map((type) => (
-                <Button
-                    key={type}
-                    variant={
-                        selectedTypes.includes(type) ? "default" : "outline"
-                    }
-                    className="shrink-0 rounded-xl"
-                    onClick={() => handleTypeChange(type)}
-                >
-                    {type}
-                </Button>
-            ))}
-        </div>
+      <div className="flex gap-2 overflow-x-auto pb-1">
+        <Button
+          variant={selectedTypes.length === 0 ? "default" : "outline"}
+          className="shrink-0 rounded-xl"
+          onClick={() => handleTypeChange("All")}
+        >
+          All
+        </Button>
+        {CLOTHING_TYPES.map((type) => (
+          <Button
+            key={type}
+            variant={ selectedTypes.includes(type) ? "default" : "outline" }
+            className="shrink-0 rounded-xl"
+            onClick={() => handleTypeChange(type)}
+          >
+              {type}
+          </Button>
+        ))}
+      </div>
     );
 }

@@ -1,4 +1,3 @@
-
 import FilterPopover, {
     SelectedFilters,
 } from "@/components/wardrobe/FilterPopover";
@@ -54,7 +53,6 @@ export const CLOTHING_TYPES = [
   "Shoes",
   "Accessories",
 ] as const;
-
 
 export const CLOTHING_CATEGORY_MAP: Record<string, string[]> = {
     Tops: [

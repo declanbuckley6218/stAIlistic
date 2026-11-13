@@ -9,16 +9,11 @@ import QuickFilter from "@/components/wardrobe/QuickFilter";
 import { useEffect, useMemo, useState } from "react";
 import { ClothingItem } from "@/types/wardrobe";
 import { loadWardrobe } from "../actions/wardrobeActions";
-import {
-    SelectedFilters,
-} from "@/components/wardrobe/FilterPopover";
+import { SelectedFilters } from "@/components/wardrobe/FilterPopover";
 
 export default function WardrobePage() {
   const [wardrobeItems, setItems] = useState<ClothingItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const functionEG = (id: string) => {
-    console.log(`Button ${id} clicked`);
-  };
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const [currentSearch, setSearch] = useState("");
