@@ -1,5 +1,5 @@
 import { ClothingItem } from "@/types/wardrobe";
-import { getWardrobeItems } from "@/services/WardrobeService";
+import { getWardrobeItems } from "@/services/WardrobeDatabaseService";
 import "server-only";
 export async function getWardrobeController(
     userid: number
