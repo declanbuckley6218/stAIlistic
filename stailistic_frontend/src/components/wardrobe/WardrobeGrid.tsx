@@ -1,6 +1,7 @@
 import { ClothingItem } from "@/types/wardrobe";
 import WardrobeItem from "./WardrobeItem";
 import { URL } from "node:url";
+import { Button } from "../ui/button";
 
 interface WardrobeItemProp {
   items?: ClothingItem[];
@@ -15,13 +16,13 @@ export default function WardrobeGrid({
   viewMode,
   onItemClick,
 }: WardrobeItemProp) {
-  if(items == null){
-    return ( 
-       <p className="text-center text-gray-400 py-8 px-4">
-          {currentSearch?.trim()
-            ? `No clothing items found for "${currentSearch}".`
-            : "Your wardrobe is empty."}
-        </p> 
+  if (items == null) {
+    return (
+      <p className="px-4 py-8 text-center text-gray-400">
+        {currentSearch?.trim()
+          ? `No clothing items found for "${currentSearch}".`
+          : "Your wardrobe is empty."}
+      </p>
     );
   }
   // List view
@@ -73,7 +74,14 @@ export default function WardrobeGrid({
   return (
     <div className="mt-5 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((item) => (
-        <WardrobeItem key={item.id} item={item} sizes={""} />
+        <button
+          key={item.id}
+          type="button"
+          onClick={() => onItemClick(item.id)}
+          className="text-left"
+        >
+          <WardrobeItem key={item.id} item={item} sizes={""} />
+        </button>
       ))}
     </div>
   );

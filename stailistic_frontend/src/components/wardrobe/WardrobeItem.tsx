@@ -15,9 +15,10 @@ export default function WardrobeItem({
   sizes,
   className,
 }: WardrobeItemProp) {
-    const [imgSrc, setImgSrc] = useState(
-      item.image ? item.image : "/NoImageFound.png"
-    );
+  console.log(item.name, item.image?.slice(0, 40));
+  const [failed, setFailed] = useState(false);
+  const src = !failed && item.image ? item.image : "/NoImageFound.png";
+
   return (
     <Card
       className={cn(
@@ -27,17 +28,15 @@ export default function WardrobeItem({
     >
       <div className="relative aspect-square">
         <Image
-          src={ (item.image.length < 3) ? item.image  :'/NoImageFound.png' }
+          src={src}
           alt={item.name}
           fill
           loading="eager"
-          sizes="sizes"
+          sizes={sizes}
           className="object-contain p-3 transition-transform duration-300 group-hover:scale-105"
-          onError={() => {
-            setImgSrc("/NoImageFound.png");
-          }}
+          onError={() => setFailed(true)}
         />
-      </div> 
+      </div>
     </Card>
   );
 }
