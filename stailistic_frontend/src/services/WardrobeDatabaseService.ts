@@ -202,34 +202,35 @@ export async function updateWardrobeItem(
 }
 
 export async function deleteWardrobeItem(
-  item_id: string,
-  user_id: number,
-) : Promise<boolean> {
-  let connection;
-  try {
-    connection = await getConnection();
-    await connection.execute(
-      `DELETE FROM ClothingItem
-            WHERE ID = :id
-              AND USERID = :userid
-            `,
-        { id: item_id, userid: user_id },
-        { outFormat: oracledb.OUT_FORMAT_OBJECT },
-      );
-      await connection.commit();
-      return true;
-  } catch (error) {
-    console.error("Wardrobe Insert Error:", error);
-    if (connection) {
-      await connection.rollback();
+    item_id: string,
+    user_id: number,
+): Promise<boolean> {
+    let connection;
+
+    try {
+        connection = await getConnection();
+
+        const result = await connection.execute(
+            `DELETE FROM ClothingItem
+             WHERE ID = :id
+             AND USERID = :userid`,
+            { id: item_id, userid: user_id },
+        );
+
+        await connection.commit();
+        return (result.rowsAffected ?? 0) > 0;
+    } catch (error) {
+        console.error("Wardrobe Delete Error:", error);
+
+        if (connection) {
+            await connection.rollback();
+        }
+        throw error;
+    } finally {
+        if (connection) {
+            await connection.close();
+        }
     }
-    throw error;
-  } finally {
-    if (connection) {
-      await connection.close();
-    }
-      return false;
-  }
 }
 
 export async function insertWardrobeItem(

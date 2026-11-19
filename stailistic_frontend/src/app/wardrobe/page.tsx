@@ -173,6 +173,11 @@ export default function WardrobePage() {
                 prev.map((i) => (i.id === updated.id ? updated : i)),
               )
             }
+            onDeleted={(deletedId) =>
+              setWardrobeItems((prev) =>
+                prev.filter((i) => i.id !== deletedId)
+              )
+            }
           />
         )}
       </div>

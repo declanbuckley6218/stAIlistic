@@ -28,5 +28,6 @@ export async function deleteItem(
   itemId: string,
   userid: number,
 ){
-  return deleteWardrobeItem(itemId, userid)
+  const deleted = await deleteWardrobeItem(itemId, userid);
+  return !!deleted;
 }
