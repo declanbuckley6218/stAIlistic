@@ -21,18 +21,18 @@ export default function DashboardHome() {
           buttonText="Outfitter"
           smallerText="View, Edit and Create your Outfits"
         />
-        <NavButton
+        {/* <NavButton
           pageTitle="events"
           buttonText="Events"
           smallerText="View, Edit and Create Upcoming Events"
-        />
+        /> */}
       </header>
 
       <main className="relative flex-1 min-w-0 m-8  overflow-hidden ">
         <div className="flex flex-row justify-between gap-10  h-full w-full  px-5">
           <WardrobePageColumn/>
           <OutfitterPageColumn/>
-          <EventPageColumn/>
+          {/* <EventPageColumn/> */}
         </div>
       </main>
     </div>
