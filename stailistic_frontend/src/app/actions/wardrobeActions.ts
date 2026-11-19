@@ -4,6 +4,7 @@ import { getWardrobeController } from "@/app/controllers/WardrobeController";
 import {
   insertWardrobeItem,
   updateWardrobeItem,
+  deleteWardrobeItem,
 } from "@/services/WardrobeDatabaseService";
 import { ClothingItem } from "@/types/wardrobe";
 
@@ -21,4 +22,12 @@ export async function updateItem(
 
 export async function addItem(userid: number, item: Omit<ClothingItem, "id">) {
   return insertWardrobeItem(userid, item);
+}
+
+export async function deleteItem(
+  itemId: string,
+  userid: number,
+){
+  const deleted = await deleteWardrobeItem(itemId, userid);
+  return !!deleted;
 }

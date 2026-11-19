@@ -4,8 +4,9 @@ import { useState } from "react";
 import { ClothingItem } from "@/types/wardrobe";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateItem } from "@/app/actions/wardrobeActions";
+import { updateItem, deleteItem } from "@/app/actions/wardrobeActions";
 import { CLOTHING_CATEGORY_MAP } from "@/components/wardrobe/WardrobeSearchBar";
+import ConfirmDelete from "./DeleteConfirmationDialogue";
 
 const categories = Object.values(CLOTHING_CATEGORY_MAP).flat();
 
@@ -13,12 +14,14 @@ interface EditItemDialogProp {
   item: ClothingItem;
   onClose: () => void;
   onSaved: (item: ClothingItem) => void;
+  onDeleted: (itemId: string) => void;
 }
 
 export default function EditItemDialog({
   item,
   onClose,
   onSaved,
+  onDeleted,
 }: EditItemDialogProp) {
   // Pre-fill the form with the item's current values, or empty strings if they are undefined
   const [name, setName] = useState(item.name ?? "");
@@ -56,6 +59,37 @@ export default function EditItemDialog({
     }
   }
 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleCancel = () => {
+    setShowDeleteConfirmation(false);
+    setIsDeleting(false);
+  };
+
+  async function handleDelete() {
+    try {
+        setShowDeleteConfirmation(false);
+        setError("");
+
+        const deleted = await deleteItem(item.id, 1);
+
+        if (!deleted) {
+            setError("Couldn't delete item.");
+            return;
+        }
+        
+        onDeleted(item.id);
+        onClose();
+
+    } catch (err) {
+        setError((err as Error).message);
+    } finally {
+        setIsDeleting(false);
+    }
+}
+
+  
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
@@ -110,9 +144,21 @@ export default function EditItemDialog({
           <Button type="button" variant="outline" onClick={onClose}>
             Cancel
           </Button>
+          <Button type="button" variant="outline" className="bg-red-400/80 border border-gray-800" onClick={()=>(setShowDeleteConfirmation(true))}>
+            Delete
+          </Button>
           <Button type="submit">Save</Button>
         </div>
       </form>
+      {showDeleteConfirmation && (
+        <ConfirmDelete
+          onConfirm={handleDelete}
+          onCancel={handleCancel}
+          isDeleting={isDeleting}
+        />)
+      }
     </div>
   );
 }
+
+
