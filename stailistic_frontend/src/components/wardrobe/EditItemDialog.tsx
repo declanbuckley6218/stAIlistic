@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ClothingItem } from "@/types/wardrobe";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateItem } from "@/app/actions/wardrobeActions";
+import { updateItem, deleteItem } from "@/app/actions/wardrobeActions";
 import { CLOTHING_CATEGORY_MAP } from "@/components/wardrobe/WardrobeSearchBar";
 
 const categories = Object.values(CLOTHING_CATEGORY_MAP).flat();
@@ -56,6 +56,17 @@ export default function EditItemDialog({
     }
   }
 
+  async function onDeletePress(){
+    try{
+      const deleted = (await deleteItem(item.id, 1)).valueOf();
+      if(deleted)
+        onClose();
+      throw error;
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  }
+  
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
@@ -109,6 +120,9 @@ export default function EditItemDialog({
         <div className="mt-2 flex justify-end gap-2">
           <Button type="button" variant="outline" onClick={onClose}>
             Cancel
+          </Button>
+          <Button type="button" variant="outline" onClick={onDeletePress}>
+            Delete
           </Button>
           <Button type="submit">Save</Button>
         </div>
